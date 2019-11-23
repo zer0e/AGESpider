@@ -15,7 +15,7 @@ class AgeSpider(scrapy.Spider):
     max_year = 2019
     max_page = 400
 
-    get_proxy_url = "http://route.xiongmaodaili.com/xiongmao-web/api/glip?secret=0f32a599fadedb09fdd99362d5c7982c&orderNo=GL20191120233421OejK80KX&count=1&isTxt=1&proxyType=1"
+    get_proxy_url = ""
     proxy_ip = "115.199.237.221:62503"
     proxies = {
         "https": "https://" + proxy_ip,
