@@ -1,5 +1,5 @@
 # AGESpider
-一个基于scrapy框架的爬虫脚本，对[age.fun](https://age.fan/)进行动漫的爬取，可将json数据存入数据库。   
+一个基于scrapy框架的爬虫脚本，对[agefans.tv](https://www.agefans.tv/)进行动漫的爬取，可将json数据存入数据库。   
 
 ## Usage  
 0.执行`pip install -r requirements.txt` 安装依赖。  
