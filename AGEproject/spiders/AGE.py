@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import requests
+import requests,time
 from AGEproject.items import AgeprojectItem
+from settings import GET_PROXY_URL
 
 class AgeSpider(scrapy.Spider):
     name = 'AGE'
@@ -12,30 +13,17 @@ class AgeSpider(scrapy.Spider):
     formation_url = "https://age.fan/detail/{}"
     page_year = 2000
     page_num = 1
-    max_year = 2019
+    max_year = 2020
     max_page = 400
 
-    get_proxy_url = ""
-    proxy_ip = "115.199.237.221:62503"
+    get_proxy_url = GET_PROXY_URL
+    proxy_ip = ""
     proxies = {
         "https": "https://" + proxy_ip,
     }
 
     def parse(self, response):
         print("正在爬取第%s部动漫" % (str(self.page_year) + str(self.page_num).zfill(4)))
-        # if response.status == 500 or response.status == 404:
-        #     # self.page_year += 1
-        #     self.error_time += 1
-        #     self.page_num += 1
-        #     if self.error_time < 20 and self.page_year <= self.max_year:
-        #         new_url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
-        #         yield scrapy.Request(url=new_url, callback=self.parse, )
-        #     else:
-        #         self.page_year += 1
-        #         self.page_num = 1
-        #         if self.page_year <= self.max_year:
-        #             new_url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
-        #             yield scrapy.Request(url=new_url, callback=self.parse, )
 
         # 如果找到元素,提取
         if response.css("h4::text").extract():
@@ -60,6 +48,7 @@ class AgeSpider(scrapy.Spider):
             item["plot_type"] = anime_item[8]
             item["tag"] = anime_item[9]
             item["website"] = anime_item[10]
+            item['origin_url'] = response.url
 
             if len(download_url) == 2:
                 # download_site 应该使用request访问后获取跳转页面
@@ -68,7 +57,7 @@ class AgeSpider(scrapy.Spider):
                 if response.css(".res_links_pswd::text").extract():
                     item['pwd1'] = response.css(".res_links_pswd::text").extract()[0][:4]
                     item['pwd2'] = response.css(".res_links_pswd::text").extract()[1][:4]
-            else:
+            elif len(download_url) == 1:
                 item['download_site1'] = self.get_pan_url(download_url[0])
                 if response.css(".res_links_pswd::text").extract():
                     item['pwd1'] = response.css(".res_links_pswd::text").extract()[0][:4]
@@ -86,6 +75,7 @@ class AgeSpider(scrapy.Spider):
             yield scrapy.Request(url=new_url, callback=self.parse)
 
     def get_pan_url(self, url):
+        return self.domain_url + url
         try:
             h = requests.head(self.domain_url + url, allow_redirects=False, proxies=self.proxies, timeout=10)
 
@@ -104,7 +94,7 @@ class AgeSpider(scrapy.Spider):
 
 
     def start_requests(self):
-        self.refresh_proxy_ip()
+        # self.refresh_proxy_ip()
         url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
         return [scrapy.FormRequest(url=url, callback=self.parse)]
 
