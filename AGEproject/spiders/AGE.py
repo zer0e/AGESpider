@@ -6,11 +6,11 @@ from AGEproject.settings import GET_PROXY_URL
 
 class AgeSpider(scrapy.Spider):
     name = 'AGE'
-    allowed_domains = ['age.fan']
-    domain_url = "https://age.fan"
+    allowed_domains = ['age.fan','agefans.tv']
+    domain_url = "https://www.agefans.tv"
     error_time = 0
     start_urls = []
-    formation_url = "https://age.fan/detail/{}"
+    formation_url = "https://www.agefans.tv/detail/{}"
     page_year = 2000
     page_num = 1
     max_year = 2020
@@ -95,7 +95,7 @@ class AgeSpider(scrapy.Spider):
         #     return self.get_pan_url(url)
 
     def get_max_page(self,page_year):
-        index_url = "https://www.agefans.tv/catalog/all-{}-all-all-all-time-1".format(str(page_year))
+        index_url = self.domain_url + "/catalog/all-{}-all-all-all-time-1".format(str(page_year))
         h = requests.get(index_url)
         count = re.findall("class=\"asciifont\">(.*?)纪录</span>",h.text)[0]
         # 防止遗漏
