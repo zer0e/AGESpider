@@ -24,6 +24,7 @@ class AgeprojectItem(scrapy.Item):
     plot_type = scrapy.Field()
     tag = scrapy.Field()
     website = scrapy.Field()
+    origin_url = scrapy.Field()
     download_site1 = scrapy.Field()
     download_site2 = scrapy.Field()
     pwd1 = scrapy.Field()
