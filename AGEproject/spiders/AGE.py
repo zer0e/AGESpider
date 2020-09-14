@@ -76,21 +76,21 @@ class AgeSpider(scrapy.Spider):
 
     def get_pan_url(self, url):
         return self.domain_url + url
-        try:
-            h = requests.head(self.domain_url + url, allow_redirects=False, proxies=self.proxies, timeout=10)
+        # try:
+        #     h = requests.head(self.domain_url + url, allow_redirects=False, proxies=self.proxies, timeout=10)
 
-            if h.headers['Location'] == '/captcha':
-                # print(h.headers)
-                self.refresh_proxy_ip()
-                t = requests.head(self.domain_url + url, allow_redirects=False, proxies=self.proxies)
-                return t.headers['Location']
+        #     if h.headers['Location'] == '/captcha':
+        #         # print(h.headers)
+        #         self.refresh_proxy_ip()
+        #         t = requests.head(self.domain_url + url, allow_redirects=False, proxies=self.proxies)
+        #         return t.headers['Location']
 
-            return h.headers['Location']
-        except KeyError:
-            return "no link"
-        except:
-            self.refresh_proxy_ip()
-            return self.get_pan_url(url)
+        #     return h.headers['Location']
+        # except KeyError:
+        #     return "no link"
+        # except:
+        #     self.refresh_proxy_ip()
+        #     return self.get_pan_url(url)
 
 
     def start_requests(self):
