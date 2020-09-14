@@ -94,10 +94,10 @@ HTTPERROR_ALLOWED_CODES = [500, 502, 404]
 
 # local database settings
 DATABASE = {
-   'ip':'',
-   'user':'',
-   'pass':'',
-   'schema':''
+   'ip':'127.0.0.1',
+   'user':'root',
+   'pass':'soft',
+   'schema':'test'
 }
 
 # proxy get url
