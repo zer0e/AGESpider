@@ -90,7 +90,7 @@ FEED_EXPORT_ENCODING = 'utf-8'
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-HTTPERROR_ALLOWED_CODES = [500, 502]
+HTTPERROR_ALLOWED_CODES = [500, 502, 404]
 
 # local database settings
 DATABASE = {
