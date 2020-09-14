@@ -58,8 +58,11 @@ def insert_data(table, data):
         print("{} : 该记录插入失败".format(data['chinese_name']))
         error_list.append(data['chinese_name'])
         time.sleep(3)
+        return False
     finally:
         db.close()
+    
+    return True
 
 
 def sorting_data_to_one_file(data):
@@ -104,16 +107,18 @@ def create_table(table_name):
 if __name__ == '__main__':
 
     test_db()
-    table_name = "anime_test"
-    choice = input("是否创建表? y/n  ")
+    table_name = DATABASE['table']
+    choice = input("当前表为 {} 是否创建该表?(此操作会清空原表中所有数据) y/n  ".format(table_name))
     if choice == 'y':
         create_table(table_name)
     with open("../anime.json", 'r', encoding='UTF-8') as f:
         data = json.load(f)
-        # print(len(data))
+
+    count = 0
     for i in data:
         print("当前插入: " + i['chinese_name'])
-        insert_data(table_name, i)
-    print("完成自动插入")
+        if insert_data(table_name, i):
+            count += 1
+    print("完成自动插入，原纪录 {} 条，插入 {} 条".format(len(data),count))
     print("以下记录自动插入失败，请手动处理")
     print(error_list)
