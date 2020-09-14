@@ -2,7 +2,7 @@
 import scrapy
 import requests,time
 from AGEproject.items import AgeprojectItem
-from settings import GET_PROXY_URL
+from AGEproject.settings import GET_PROXY_URL
 
 class AgeSpider(scrapy.Spider):
     name = 'AGE'
@@ -47,7 +47,7 @@ class AgeSpider(scrapy.Spider):
             item["status"] = anime_item[7]
             item["plot_type"] = anime_item[8]
             item["tag"] = anime_item[9]
-            item["website"] = anime_item[10]
+            item["website"] = anime_item[10] if 10 < len(anime_item) else ""
             item['origin_url'] = response.url
 
             if len(download_url) == 2:
@@ -71,6 +71,7 @@ class AgeSpider(scrapy.Spider):
             else:
                 self.page_year += 1
                 self.page_num = 1
+        if self.page_year <= self.max_year:
             new_url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
             yield scrapy.Request(url=new_url, callback=self.parse)
 
