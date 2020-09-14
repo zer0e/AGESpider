@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-import requests,time
+import requests,time,re
 from AGEproject.items import AgeprojectItem
 from AGEproject.settings import GET_PROXY_URL
 
@@ -14,7 +14,7 @@ class AgeSpider(scrapy.Spider):
     page_year = 2000
     page_num = 1
     max_year = 2020
-    max_page = 400
+    max_page = 50
 
     get_proxy_url = GET_PROXY_URL
     proxy_ip = ""
@@ -71,6 +71,7 @@ class AgeSpider(scrapy.Spider):
             else:
                 self.page_year += 1
                 self.page_num = 1
+                self.max_page = self.get_max_page(self.page_year)
         if self.page_year <= self.max_year:
             new_url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
             yield scrapy.Request(url=new_url, callback=self.parse)
@@ -93,9 +94,17 @@ class AgeSpider(scrapy.Spider):
         #     self.refresh_proxy_ip()
         #     return self.get_pan_url(url)
 
+    def get_max_page(self,page_year):
+        index_url = "https://www.agefans.tv/catalog/all-{}-all-all-all-time-1".format(str(page_year))
+        h = requests.get(index_url)
+        count = re.findall("class=\"asciifont\">(.*?)纪录</span>",h.text)[0]
+        # 防止遗漏
+        return int(count) + 10
+        
 
     def start_requests(self):
         # self.refresh_proxy_ip()
+        self.max_page = self.get_max_page(self.page_year)
         url = self.formation_url.format(str(self.page_year) + str(self.page_num).zfill(4))
         return [scrapy.FormRequest(url=url, callback=self.parse)]
 
