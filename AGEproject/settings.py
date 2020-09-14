@@ -97,7 +97,8 @@ DATABASE = {
    'ip':'127.0.0.1',
    'user':'root',
    'pass':'soft',
-   'schema':'test'
+   'schema':'test',
+   'table':'anime_test'
 }
 
 # proxy get url
