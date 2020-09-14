@@ -1,6 +1,7 @@
 import json
 import pymysql
 import os
+from settings import DATABASE
 
 
 def get_all_file(file_dir='.'):
@@ -19,15 +20,7 @@ def test_db(db):
     db.close()
 
 def insert_data(table, data):
-
-    # keys = []
-    # values = []
-    # for i in data:
-    #     keys.append(i)
-    #     values.append(data[i])
-    # print(keys)
-    # print(values)
-    db = pymysql.connect("192.168.31.140", "root", "root", "test")
+    db = pymysql.connect(DATABASE['ip'], DATABASE['user'], DATABASE['pass'], DATABASE['schema'])
     # db = pymysql.connect("192.168.43.193", "root", "root", "test")
     cursor = db.cursor()
 
@@ -51,17 +44,7 @@ def sorting_data_to_one_file(data):
 
 
 if __name__ == '__main__':
-    # anime_file_list = get_all_file()
-    # all = 0
-    # anime_list = []
-    # for i in anime_file_list:
-    #     with open(i, 'r', encoding='UTF-8') as f:
-    #         data = json.load(f)
-    #         for j in data:
-    #             anime_list.append(j)
-    #         f.close()
-    # print(len(anime_list))
-    # sorting_data_to_one_file(anime_list)
+   
     with open("anime.json", 'r', encoding='UTF-8') as f:
         data = json.load(f)
         # print(len(data))

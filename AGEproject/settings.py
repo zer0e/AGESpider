@@ -91,3 +91,16 @@ FEED_EXPORT_ENCODING = 'utf-8'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 HTTPERROR_ALLOWED_CODES = [500, 502]
+
+# local database settings
+DATABASE = {
+   'ip':'',
+   'user':'',
+   'pass':'',
+   'schema':''
+}
+
+# proxy get url
+# get one proxy ip each time, html is text, not json
+# 每次获取一个代理ip，注意网页为文本信息，不是json
+GET_PROXY_URL = ""
