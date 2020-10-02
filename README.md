@@ -1,12 +1,15 @@
 # AGESpider
 一个基于scrapy框架的爬虫脚本，对[agefans.tv](https://www.agefans.tv/)进行动漫的爬取，可将json数据存入数据库。   
-
+A crawler script based on the scrapy framework, crawls [agefans.tv](https://www.agefans.tv/), and can store json data in the database.
 ## Usage  
 0.执行`pip install -r requirements.txt` 安装依赖。  
+   Execute `pip install -r requirements.txt` to install dependencies
 1.可修改spider主文件中的开始年份与结束年份，默认爬取从2000-2020年间的动漫。  
+   The start year and end year in the spider main file can be modified, and the animations from 2000 to 2020 are crawled by.      default.
 2.执行scrapy crawl AGE -o anime.json 获取动漫数据  
+   Execute scrapy crawl AGE -o anime.json to obtain animation data
 3.根据需要，可修改settings中数据库的各项信息，执行sorting_data.py 将数据存入数据库
-
+   According to needs, you can modify the information of the database in the settings, execute sorting_data.py to save the.      data in the database
 ## Log
 2020.07.05   
 1.网站更改了百度云链接获取方式，需要添加Referer头。  
